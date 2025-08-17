@@ -28,11 +28,11 @@ export const HeroSection = () => {
               advanced technology, and affordable pricing with trusted, background-verified professionals.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mb-8 slide-in-left" style={{ animationDelay: '0.8s' }}>
-              <Link to="/signup">
+              <a href="#subscription-plans">
                 <Button className="bg-[#0011D9] hover:bg-blue-700 text-white text-lg px-8 rounded-lg shadow-lg">
                   Book Now
                 </Button>
-              </Link>
+              </a>
               <Link to="/#how-it-works">
                 <Button variant="outline" size="lg" className="text-lg px-8 py-4 border-2 border-[#0011D9] text-[#0011D9] hover:bg-[#0011D9] hover:text-white transition-all flex items-center">
                   <Play className="h-5 w-5 mr-2" />

@@ -12,9 +12,12 @@ import MaidBookingsPage from "./pages/MaidBookingsPage";
 import MaidDashboard from "./pages/MaidDashboard";
 import MaidSupportPage from "./pages/MaidSupportPage";
 import NotFound from "./pages/NotFound";
+import PaymentOptionsPage from "./pages/PaymentOptionsPage";
 import PaymentsPage from "./pages/PaymentsPage";
 import ProfilePage from "./pages/ProfilePage";
+import ReviewPaymentPage from "./pages/ReviewPaymentPage";
 import SignupPage from "./pages/SignupPage";
+import SubscriptionDetailsPage from "./pages/SubscriptionDetailsPage";
 import SubscriptionPage from "./pages/SubscriptionPage";
 import SupportPage from "./pages/SupportPage";
 
@@ -39,6 +42,9 @@ const App = () => (
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/bookings" element={<BookingsPage />} />
           <Route path="/subscription" element={<SubscriptionPage />} />
+          <Route path="/subscription-details/:planId" element={<SubscriptionDetailsPage />} />
+          <Route path="/payment-options" element={<PaymentOptionsPage />} />
+          <Route path="/review-payment" element={<ReviewPaymentPage />} />
           <Route path="/payments" element={<PaymentsPage />} />
           <Route path="/support" element={<SupportPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

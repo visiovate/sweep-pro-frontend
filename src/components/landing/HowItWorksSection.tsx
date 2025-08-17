@@ -1,4 +1,4 @@
-import { UserPlus, Calendar, CreditCard, Smile, CheckCircle } from 'lucide-react';
+import { Calendar, CheckCircle, CreditCard, Smile, UserPlus } from 'lucide-react';
 
 const steps = [
   {
@@ -95,7 +95,7 @@ export const HowItWorksSection = () => {
               <a href="#pricing" className="btn-hero inline-flex items-center justify-center px-8 py-3 text-base">
                 View Pricing Plans
               </a>
-              <a href="/signup" className="inline-flex items-center justify-center px-8 py-3 text-base border border-primary text-primary rounded-xl hover:bg-primary hover:text-primary-foreground transition-colors">
+              <a href="#subscription-plans" className="inline-flex items-center justify-center px-8 py-3 text-base border border-primary text-primary rounded-xl hover:bg-primary hover:text-primary-foreground transition-colors">
                 Start Free Trial
               </a>
             </div>

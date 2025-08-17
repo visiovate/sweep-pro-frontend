@@ -5,10 +5,11 @@ import { Link } from 'react-router-dom';
 
 interface NavbarProps {
   isAuthenticated?: boolean;
-  onAuthAction?: () => void;
+  onLoginClick?: () => void;
+  onSignupClick?: () => void;
 }
 
-export const Navbar = ({ isAuthenticated = false, onAuthAction }: NavbarProps) => {
+export const Navbar = ({ isAuthenticated = false, onLoginClick, onSignupClick }: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const notificationRef = useRef<HTMLDivElement>(null);
@@ -207,12 +208,16 @@ export const Navbar = ({ isAuthenticated = false, onAuthAction }: NavbarProps) =
               </div>
             ) : (
               <div className="flex items-center space-x-4">
-                <Link to="/login" className="text-muted-foreground hover:text-primary transition-colors">
+                <Button 
+                  variant="ghost" 
+                  onClick={onLoginClick} 
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                >
                   Login
-                </Link>
-                <Link to="/signup">
-                  <Button className="btn-hero">Get Started</Button>
-                </Link>
+                </Button>
+                <Button onClick={onSignupClick} className="btn-hero">
+                  Get Started
+                </Button>
               </div>
             )}
           </div>
@@ -270,12 +275,19 @@ export const Navbar = ({ isAuthenticated = false, onAuthAction }: NavbarProps) =
               </Link>
             ) : (
               <div className="space-y-2 pt-2">
-                <Link to="/login" onClick={toggleMenu}>
-                  <Button variant="outline" className="w-full">Login</Button>
-                </Link>
-                <Link to="/signup" onClick={toggleMenu}>
-                  <Button className="btn-hero w-full">Get Started</Button>
-                </Link>
+                <Button 
+                  variant="outline" 
+                  onClick={() => { onLoginClick?.(); toggleMenu(); }} 
+                  className="w-full"
+                >
+                  Login
+                </Button>
+                <Button 
+                  onClick={() => { onSignupClick?.(); toggleMenu(); }} 
+                  className="btn-hero w-full"
+                >
+                  Get Started
+                </Button>
               </div>
             )}
           </div>

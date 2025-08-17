@@ -1,156 +1,205 @@
-import { Check, Crown } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { ArrowRight, Check, Crown, Sparkles, Star } from 'lucide-react';
 
-const plans = [
+interface SubscriptionPlan {
+  id: string;
+  name: string;
+  price: number;
+  duration: string;
+  description: string;
+  features: string[];
+  popular?: boolean;
+  discount?: number;
+  originalPrice?: number;
+}
+
+interface PricingSectionProps {
+  isAuthenticated?: boolean;
+  onPlanSelect?: (planId: string) => void;
+}
+
+const subscriptionPlans: SubscriptionPlan[] = [
   {
-    name: 'Basic',
-    price: '₹1,999',
-    period: '/month',
-    description: 'Perfect for small apartments and minimal cleaning needs',
+    id: 'basic',
+    name: 'Basic Clean',
+    price: 999,
+    duration: 'month',
+    description: 'Perfect for small apartments and regular maintenance',
     features: [
-      '2 visits per week',
-      '2-3 hours per visit',
+      'Weekly cleaning service',
       'Basic cleaning supplies included',
-      'Dusting and vacuuming',
-      'Kitchen and bathroom cleaning',
-      'Email support'
-    ],
-    popular: false,
-    color: 'border-border'
+      'Standard 2-hour service',
+      'Kitchen & bathroom focus',
+      'Vacuum & mop floors'
+    ]
   },
   {
-    name: 'Standard',
-    price: '₹3,499',
-    period: '/month',
-    description: 'Most popular choice for regular families',
+    id: 'standard',
+    name: 'Standard Plus',
+    price: 1499,
+    duration: 'month',
+    description: 'Ideal for medium-sized homes with enhanced services',
     features: [
-      '5 visits per week',
-      '3-4 hours per visit',
+      'Bi-weekly deep cleaning',
       'Premium cleaning supplies',
-      'Deep cleaning included',
-      'Laundry and ironing',
-      'Kitchen organization',
-      'Priority support',
-      'Rescheduling flexibility'
+      '3-hour comprehensive service',
+      'All rooms included',
+      'Appliance cleaning',
+      'Window cleaning',
+      'Priority scheduling'
     ],
-    popular: true,
-    color: 'border-primary'
+    popular: true
   },
   {
-    name: 'Premium',
-    price: '₹5,999',
-    period: '/month',
-    description: 'Complete home management solution',
+    id: 'premium',
+    name: 'Premium Complete',
+    price: 2499,
+    duration: 'month',
+    description: 'Ultimate cleaning experience for large homes and villas',
     features: [
-      'Daily visits (7 days/week)',
-      '4-5 hours per visit',
-      'Luxury cleaning products',
-      'Complete home organization',
-      'Grocery shopping assistance',
-      'Pet care assistance',
-      'Dedicated cleaner assigned',
-      '24/7 priority support',
-      'Emergency cleaning',
-      'Special event preparation'
+      'Weekly premium cleaning',
+      'Luxury cleaning supplies',
+      '4-hour detailed service',
+      'All rooms + outdoor areas',
+      'Deep carpet cleaning',
+      'Furniture polishing',
+      '24/7 support',
+      'Free cancellation'
     ],
-    popular: false,
-    color: 'border-warning'
+    discount: 20,
+    originalPrice: 3125
   }
 ];
 
-export const PricingSection = () => {
+export const PricingSection = ({ isAuthenticated = false, onPlanSelect }: PricingSectionProps) => {
+  const handlePlanSelect = (planId: string) => {
+    if (onPlanSelect) {
+      onPlanSelect(planId);
+    }
+  };
+
   return (
-    <section id="pricing" className="py-20 bg-muted/30">
+    <section id="subscription-plans" className="py-20 bg-gradient-to-br from-blue-50 via-white to-blue-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16 fade-in">
-          <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
-            Simple, Transparent Pricing
+        {/* Header */}
+        <div className="text-center mb-12">
+          <div className="flex justify-center mb-4">
+            <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-3 rounded-full shadow-lg">
+              <Sparkles className="h-8 w-8 text-white" />
+            </div>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            Choose Your Cleaning Plan
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-            Choose the perfect plan for your home. All plans include background-verified cleaners and satisfaction guarantee.
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Select the perfect subscription plan that fits your home and lifestyle. 
+            All plans include professional cleaning services with flexible scheduling.
           </p>
-          <div className="inline-flex items-center bg-success-light text-success px-4 py-2 rounded-full text-sm font-medium">
+          <div className="inline-flex items-center bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-medium mt-4">
             <Crown className="h-4 w-4 mr-2" />
             30-day money-back guarantee on all plans
           </div>
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {plans.map((plan, index) => (
-            <div 
-              key={plan.name}
-              className={`pricing-card ${plan.popular ? 'popular' : ''} slide-up`}
-              style={{ animationDelay: `${index * 0.1}s` }}
+
+        {/* Plans Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          {subscriptionPlans.map((plan) => (
+            <Card 
+              key={plan.id}
+              className="relative transition-all duration-300 hover:scale-105 shadow-xl border-0 bg-white/80 backdrop-blur-sm"
             >
               {plan.popular && (
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-primary text-primary-foreground px-4 py-1 rounded-full text-sm font-medium flex items-center">
-                    <Crown className="h-4 w-4 mr-1" />
-                    Most Popular
-                  </div>
-                </div>
+                <Badge className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-4 py-1 text-sm font-semibold">
+                  <Star className="h-3 w-3 mr-1" />
+                  Most Popular
+                </Badge>
               )}
               
-              <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-foreground mb-2">
+              {plan.discount && (
+                <Badge className="absolute -top-3 -right-3 bg-green-500 text-white px-2 py-1 text-xs font-bold">
+                  -{plan.discount}%
+                </Badge>
+              )}
+
+              <CardHeader className="text-center pb-6">
+                <CardTitle className="text-2xl font-bold text-gray-900 mb-2">
                   {plan.name}
-                </h3>
-                <div className="flex items-baseline justify-center mb-2">
-                  <span className="text-4xl font-bold text-foreground">
-                    {plan.price}
-                  </span>
-                  <span className="text-muted-foreground ml-1">
-                    {plan.period}
-                  </span>
-                </div>
-                <p className="text-muted-foreground text-sm">
+                </CardTitle>
+                <CardDescription className="text-gray-600 text-base">
                   {plan.description}
-                </p>
-              </div>
-              
-              <ul className="space-y-4 mb-8">
-                {plan.features.map((feature, featureIndex) => (
-                  <li key={featureIndex} className="flex items-start">
-                    <Check className="h-5 w-5 text-success mt-0.5 mr-3 flex-shrink-0" />
-                    <span className="text-muted-foreground text-sm">
-                      {feature}
+                </CardDescription>
+              </CardHeader>
+
+              <CardContent className="space-y-6">
+                {/* Pricing */}
+                <div className="text-center">
+                  <div className="flex items-center justify-center gap-2 mb-2">
+                    <span className="text-4xl font-bold text-blue-600">
+                      ₹{plan.price}
                     </span>
-                  </li>
-                ))}
-              </ul>
-              
-              <div className="mt-auto">
-                <Link to="/signup" state={{ selectedPlan: plan.name }}>
-                  <Button 
-                    className={`w-full py-3 ${plan.popular ? 'btn-hero' : 'border border-primary text-primary hover:bg-primary hover:text-primary-foreground'}`}
-                    variant={plan.popular ? 'default' : 'outline'}
-                  >
-                    Get Started
-                  </Button>
-                </Link>
-                <p className="text-xs text-muted-foreground text-center mt-3">
-                  Cancel anytime • No setup fees
-                </p>
-              </div>
-            </div>
+                    <span className="text-gray-500 text-lg">
+                      /{plan.duration}
+                    </span>
+                  </div>
+                  {plan.originalPrice && (
+                    <span className="text-gray-400 line-through text-lg">
+                      ₹{plan.originalPrice}
+                    </span>
+                  )}
+                </div>
+
+                {/* Features */}
+                <div className="space-y-3">
+                  {plan.features.map((feature, index) => (
+                    <div key={index} className="flex items-start gap-3">
+                      <div className="bg-green-100 p-1 rounded-full mt-0.5 flex-shrink-0">
+                        <Check className="h-3 w-3 text-green-600" />
+                      </div>
+                      <span className="text-gray-700 text-sm">{feature}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* CTA Button */}
+                <Button 
+                  className={`w-full py-3 text-lg font-semibold rounded-xl transition-all duration-200 ${
+                    plan.popular 
+                      ? 'bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white shadow-lg hover:shadow-xl' 
+                      : 'bg-gray-100 hover:bg-gray-200 text-gray-800'
+                  }`}
+                  onClick={() => handlePlanSelect(plan.id)}
+                >
+                  {isAuthenticated ? 'Get Started' : 'Get Started'}
+                  <ArrowRight className="h-4 w-4 ml-2" />
+                </Button>
+              </CardContent>
+            </Card>
           ))}
         </div>
-        
+
         {/* Additional Info */}
-        <div className="mt-16 text-center fade-in">
+        <div className="text-center text-gray-600">
+          <p className="text-lg">
+            Need a custom plan? <a href="#" className="text-blue-600 hover:text-blue-700 font-semibold underline">Contact us</a>
+          </p>
+        </div>
+
+        {/* Stats Section */}
+        <div className="mt-16 text-center">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div>
-              <div className="text-2xl font-bold text-primary mb-2">24/7</div>
-              <div className="text-sm text-muted-foreground">Customer Support</div>
+              <div className="text-2xl font-bold text-blue-600 mb-2">24/7</div>
+              <div className="text-sm text-gray-600">Customer Support</div>
             </div>
             <div>
-              <div className="text-2xl font-bold text-primary mb-2">10K+</div>
-              <div className="text-sm text-muted-foreground">Happy Customers</div>
+              <div className="text-2xl font-bold text-blue-600 mb-2">10K+</div>
+              <div className="text-sm text-gray-600">Happy Customers</div>
             </div>
             <div>
-              <div className="text-2xl font-bold text-primary mb-2">99.9%</div>
-              <div className="text-sm text-muted-foreground">Satisfaction Rate</div>
+              <div className="text-2xl font-bold text-blue-600 mb-2">99.9%</div>
+              <div className="text-sm text-gray-600">Satisfaction Rate</div>
             </div>
           </div>
         </div>
